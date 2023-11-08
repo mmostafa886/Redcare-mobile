@@ -24,7 +24,6 @@ public class SwipeAndScroll extends PageBase {
                 + "new UiSelector()." + attribute + ");"));
     }
 
-
     public void scrollHorizontally(By sliderElement) {
         /*The locator AppiumBy.id("android:id/list") is used to locate either the slider (which didn't work in our case)
          * Or in our case the 'list' containing all the elements
@@ -36,9 +35,6 @@ public class SwipeAndScroll extends PageBase {
     }
 
     public void scrollVertically(By sliderElement) {
-        /*The locator AppiumBy.id("android:id/list") is used to locate either the slider (which didn't work in our case)
-         * Or in our case the 'list' containing all the elements
-         * The reason for the need to do this is that: the element that we want to tab is not present in the current view till scrolling down*/
         RemoteWebElement scrollView = (RemoteWebElement) wait.until(presenceOfElementLocated(sliderElement));
         driver.executeScript("gesture: swipe", Map.of("elementId", scrollView.getId(),
                 "percentage", 25,
@@ -46,9 +42,6 @@ public class SwipeAndScroll extends PageBase {
     }
 
     public void scrollHorizontalAndSelectItem(By sliderElement, String selectorValue) {
-        /*The locator AppiumBy.id("android:id/list") is used to locate either the slider (which didn't work in our case)
-         * Or in our case the 'list' containing all the elements
-         * The reason for the need to do this is that: the element that we want to tab is not present in the current view till scrolling down*/
         RemoteWebElement scrollView = (RemoteWebElement) wait.until(presenceOfElementLocated(sliderElement));
         driver.executeScript("gesture: scrollElementIntoView", ImmutableMap.of("scrollableView", scrollView.getId(),
                 "strategy", "xpath",

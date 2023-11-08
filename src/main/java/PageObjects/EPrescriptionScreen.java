@@ -6,7 +6,7 @@ import org.openqa.selenium.By;
 
 public class EPrescriptionScreen extends PageBase {
 
-    public  By skipEPrescribeBtn;
+    public By skipEPrescribeBtn;
 
     public EPrescriptionScreen(AppiumDriver appiumDriver) {
         super(appiumDriver);
@@ -25,7 +25,7 @@ public class EPrescriptionScreen extends PageBase {
     }
 
 
-    public void skipEPrescripe(){
+    public void skipEPrescripe() {
         click(skipEPrescribeBtn);
     }
 }

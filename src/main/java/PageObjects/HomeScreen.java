@@ -3,7 +3,6 @@ package PageObjects;
 import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import utils.SwipeAndScroll;
 
 import java.util.ArrayList;
@@ -51,14 +50,13 @@ public class HomeScreen extends PageBase {
         swipeAndScroll.scrollToAnElementByAttribute(driver, recommndCListResource);
     }
 
-//    The problem I faced with this function is that, once the screen is swiped, the content card is not present in the DOManymore
+    //    The problem I faced with this function is that, once the screen is swiped, the content card is not present in the DOManymore
 //    So, this doesn't guarantee that the selected random card will be present in the DOM
     public void selectRandomCards_Old() {
         List<WebElement> contentCards = new ArrayList<>();
         boolean cardsFound = true;
         WebElement newVisibleCards = null;
         while (cardsFound) {
-//            waitForVisibility(contentCardTitle);
             elementPresence(contentCardTitle);
             WebElement visibleCards = driver.findElements(contentCardTitle).get(0);
 
@@ -66,7 +64,7 @@ public class HomeScreen extends PageBase {
             swipeAndScroll.scrollHorizontally(recommendationCardsList);
             int cardsLength = contentCards.size();
 //            Get the last WebElement from the contentCards list
-            if(cardsLength !=0 ) {
+            if (cardsLength != 0) {
                 newVisibleCards = contentCards.get(cardsLength - 1);
             }
             if (visibleCards.equals(newVisibleCards)) {
@@ -77,24 +75,22 @@ public class HomeScreen extends PageBase {
         }
         Random random = new Random();
         int randomIndex = random.nextInt(contentCards.size());
-//        elementPresence((By) contentCards.get(randomIndex));
         String itemTitle = contentCards.get(randomIndex).getText();
         System.out.println(itemTitle);
-        swipeAndScroll.scrollHorizontalAndSelectItem(recommendationCardsList,"//*[@text='"+itemTitle+"']");
+        swipeAndScroll.scrollHorizontalAndSelectItem(recommendationCardsList, "//*[@text='" + itemTitle + "']");
 
-//        return contentCards.get(randomIndex);
     }
 
 
-    public void selectRandomCards(){
+    public void selectRandomCards() {
         int numberOfCards = 10;
         Random random = new Random();
         int randomCardIndex = random.nextInt(numberOfCards);
 
-        for(int i =0; i < randomCardIndex ;i++){
+        for (int i = 0; i < randomCardIndex; i++) {
             swipeAndScroll.scrollHorizontally(recommendationCardsList);
         }
-        System.out.println("The Item index is: "+randomCardIndex+" and the Item Title is: "+getElementText(contentCardTitle));
+        System.out.println("The Item index is: " + randomCardIndex + " and the Item Title is: " + getElementText(contentCardTitle));
         click(contentCardTitle);
     }
 }

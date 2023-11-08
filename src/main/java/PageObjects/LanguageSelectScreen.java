@@ -15,7 +15,7 @@ public class LanguageSelectScreen extends PageBase {
 
     public LanguageSelectScreen(AppiumDriver appiumDriver) {
         super(appiumDriver);
-        wait = new WebDriverWait(driver, Duration.ofSeconds(WAIT),Duration.ofMillis(200));
+        wait = new WebDriverWait(driver, Duration.ofSeconds(WAIT), Duration.ofMillis(200));
         intializeLanguageSelectElements();
     }
 
@@ -32,8 +32,7 @@ public class LanguageSelectScreen extends PageBase {
         }
     }
 
-    public void SelectLanguage(){
-//        wait.until(ExpectedConditions.presenceOfElementLocated(englishLanguage));
+    public void SelectLanguage() {
         click(englishLanguage);
     }
 }

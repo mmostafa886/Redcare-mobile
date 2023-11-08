@@ -24,7 +24,7 @@ public class AuthorizationScreen extends PageBase {
         }
     }
 
-    public void skipAuthorization(){
+    public void skipAuthorization() {
         click(skipAuthBtn);
     }
 }

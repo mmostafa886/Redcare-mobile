@@ -15,7 +15,7 @@ public class PageBase {
 
     public PageBase(AppiumDriver appiumDriver) {
         driver = appiumDriver;
-        wait = new WebDriverWait(driver, Duration.ofSeconds(WAIT),Duration.ofMillis(200));
+        wait = new WebDriverWait(driver, Duration.ofSeconds(WAIT), Duration.ofMillis(200));
     }
 
     public void waitForVisibility(By byObject) {
@@ -38,7 +38,7 @@ public class PageBase {
         customLocate(byObject).click();
     }
 
-    public String getElementText(By byObject){
+    public String getElementText(By byObject) {
         waitForVisibility(byObject);
         return customLocate(byObject).getText();
     }
@@ -53,10 +53,11 @@ public class PageBase {
         return customLocate(byObject).getAttribute(attribute);
     }
 
-    public void elementPresence(By byObject){
+    public void elementPresence(By byObject) {
         wait.until(ExpectedConditions.presenceOfElementLocated(byObject));
     }
-    public static WebElement customLocate(By byObject){
+
+    public static WebElement customLocate(By byObject) {
         return driver.findElement(byObject);
     }
 

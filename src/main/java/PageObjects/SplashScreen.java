@@ -24,7 +24,7 @@ public class SplashScreen extends PageBase {
         }
     }
 
-    public void splashScreenInvisibility(){
+    public void splashScreenInvisibility() {
         waitForInVisibility(splashScreen);
     }
 }

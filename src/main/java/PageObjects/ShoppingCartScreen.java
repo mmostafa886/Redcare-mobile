@@ -82,13 +82,12 @@ public class ShoppingCartScreen extends PageBase {
         String itemCent = getElementText(itemPriceCent);
         float itemPrice = Float.parseFloat(itemEur + "." + itemCent);
         float totalItemPrice = quantity * itemPrice;
-        System.out.println("The total price of the item is: "+totalItemPrice);
+        System.out.println("The total price of the item is: " + totalItemPrice);
 
         String subTotalText = getSubTotalText().replaceAll("[^\\d.,]", "").replace(",", ".");
         float subTotalAmount = Float.parseFloat(subTotalText);
-        System.out.println("The Sub-total is: "+subTotalAmount);
+        System.out.println("The Sub-total is: " + subTotalAmount);
 
         return subTotalAmount == totalItemPrice; //True in case of equal & False if not
-
     }
 }

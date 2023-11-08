@@ -40,7 +40,7 @@ public abstract class TestBase {
         } else {
             throw new IllegalArgumentException("Platform not Supported!");
         }
-        wait = new WebDriverWait(driver, Duration.ofSeconds(WAIT),Duration.ofMillis(200));
+        wait = new WebDriverWait(driver, Duration.ofSeconds(WAIT), Duration.ofMillis(200));
     }
 
     public static void tearDown() {

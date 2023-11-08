@@ -86,7 +86,7 @@ public class ItemDetailsScreen extends PageBase {
         itemPriceCentText = itemPriceCent.getText();
 //    System.out.println(itemPriceCentText);
 
-        itemCurrentPrice = "€ "+ itemPriceEurText + "," + itemPriceCentText;
+        itemCurrentPrice = "€ " + itemPriceEurText + "," + itemPriceCentText;
         System.out.println(itemCurrentPrice);
 
         return itemCurrentPrice;
@@ -96,14 +96,14 @@ public class ItemDetailsScreen extends PageBase {
         return getElementText(itemTitle);
     }
 
-    public String getCurrentQuantity(){
+    public String getCurrentQuantity() {
         return getElementText(currentQuantity);
     }
 
-    public void increaseQuantity(){
+    public void increaseQuantity() {
         int oldAmount = Integer.parseInt(getCurrentQuantity());
         click(quantityIncrease);
         int currentAmount = Integer.parseInt(getCurrentQuantity());
-        Assert.assertEquals(currentAmount, oldAmount+1);
+        Assert.assertEquals(currentAmount, oldAmount + 1);
     }
 }

@@ -106,7 +106,7 @@ public class TestClass extends TestBase {
         String itemNameFromCart = shoppingCartScreen.getFirstCartItemName();
 
         Assert.assertTrue(nonEmptyCartContentDesc.contains("new notification"));//Make sure the Cart is not Empty now
-        Assert.assertEquals(itemNameFromDetailsScreen,itemNameFromCart);
+        Assert.assertEquals(itemNameFromDetailsScreen, itemNameFromCart);
         Assert.assertTrue(shoppingCartScreen.validateSubtotal());
 
         sleep(3000);
