@@ -26,6 +26,7 @@ public class LanguageSelectScreen extends PageBase {
             englishLanguage = By.xpath("//*[@text='English']");
             languageFrame = new By.ById("bottom_sheet");
         } else if ("iOS".equalsIgnoreCase(platform)) {
+            //In case we want to use iOS, we need to provide the corresponding locators as done for "Android"
             System.out.println("The Provided Config is for iOS");
         } else {
             throw new IllegalArgumentException("Driver is not initialized properly.");

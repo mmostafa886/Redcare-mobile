@@ -2,6 +2,9 @@ package utils;
 
 import java.io.IOException;
 
+/**
+ * Handling the Android app Kill & Launch actions as it is needed in some test cases
+ */
 public class AppOperations {
     public void restartApp() throws IOException, InterruptedException {
         String appKill = "adb shell am force-stop shop.shop_apotheke.com.shopapotheke &&  adb shell pm clear shop.shop_apotheke.com.shopapotheke";

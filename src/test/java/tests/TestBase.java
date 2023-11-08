@@ -20,18 +20,24 @@ public abstract class TestBase {
 
     public static void genericSetUp() throws MalformedURLException {
         DesiredCapabilities caps = new DesiredCapabilities();
-        // Retrieve the config file path from command line
+
+        /** Retrieve the config file path from command line which is also passed to the Surefire plugin configuration*/
         String configFilePath = System.getProperty("configFilePath");
+
         // Initialize ConfigReader with the specified config file path
         ConfigFileReader config = new ConfigFileReader(configFilePath);
 
-//        caps.setCapability("avd", config.getAVDName());
+        //Assign every Capability to one of the entries from the properties(config) file
+//        caps.setCapability("avd", config.getAVDName());//This is commented only for the CI, but it can be used normally when testing locally
         caps.setCapability("automationName", config.getAutomationName());
         caps.setCapability("platformName", config.getPlatformName());
         caps.setCapability("deviceName", config.getDeviceName());
-//        caps.setCapability("platformVersion", config.getPlatformVersion()); //This is commented only for the CI, but it can be used normally when testing locally
+        //caps.setCapability("platformVersion", config.getPlatformVersion()); //This is commented only for the CI, but it can be used normally when testing locally
         caps.setCapability("app", System.getProperty("user.dir") + config.getAppPath());
 
+        /**Get the current platform from the properties file
+         * & based on that value, the right driver (Android/iOS) is started
+         */
         platform = String.valueOf(config.getPlatformName());
         if ("Android".equalsIgnoreCase(platform)) {
             driver = new AndroidDriver(new URL("http://localhost:4723"), caps);
@@ -43,6 +49,11 @@ public abstract class TestBase {
         wait = new WebDriverWait(driver, Duration.ofSeconds(WAIT), Duration.ofMillis(200));
     }
 
+    /**
+     * Kill/Close the driver active instance then close/shutdown the used Android Emulator
+     * This is supposed to be modified with a selection mechanism (between android & iOS)
+     * following the same strategy we did in the same class for starting the driver (in the genericSetUp() method)
+     */
     public static void tearDown() {
 //        String command = "killall Simulator";
         String command = "adb emu kill";

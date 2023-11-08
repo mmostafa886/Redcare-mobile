@@ -13,6 +13,9 @@ import java.net.URL;
 
 import static java.lang.Thread.sleep;
 
+/**This is not the main testing class
+ * but rather a class that is used for trying the TestCases/Methods before being added to the Test Classes
+ */
 public class TestClass extends TestBase {
     SplashScreen splashScreen;
     CountrySelectScreen countrySelectScreen;

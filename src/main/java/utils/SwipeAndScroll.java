@@ -9,7 +9,10 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebElement;
 
 import java.util.Map;
-
+/**
+ * A set of methods to handle the Swipe/Scroll in all directions instead of re-use the same block of code several times
+ * whenever needed
+ */
 import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
 
 public class SwipeAndScroll extends PageBase {

@@ -8,7 +8,12 @@ import org.json.simple.parser.ParseException;
 import java.io.FileReader;
 import java.io.IOException;
 
+/*
+This is where we are supposed to add methods for handling the data files in JSON format
+ This help minimizing the maintenance efforts (following a DDT)
+ */
 public class JsonReader {
+    //This is only an example of using JSON data file (array of objects) where each object provides 2 entries(TaskName & TaskDescription)
     public static Object[][] getJsonData(String JsonPath, String JsonData, int JsonAttributes) throws IOException, ParseException {
         Object object = new JSONParser().parse(new FileReader(JsonPath));
         JSONObject jsonObject = (JSONObject) object;

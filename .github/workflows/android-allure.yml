@@ -2,7 +2,10 @@ name: Appium, Android and Allure
 #This is the working version of the workflow for executing tests & generating allure reports with History
 on:
   push:
-    branches: [ github-actions ]
+    #The Branch name was modified not to fire the Workflow
+    #This is because the APK file size is more than 100MB (Approx. 284MB) which can't be uploaded normally to github
+    #but rather using the (Git LFS https://git-lfs.github.com/) which intern affects the github actions (Workflows)
+    branches: [ github-actions-paused ]
 
 jobs:
   run-tests:

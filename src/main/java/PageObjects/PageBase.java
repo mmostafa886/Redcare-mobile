@@ -8,6 +8,10 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
+/**
+ * A set of methods that may be used for all the app screens/pages where each of these methods enclose a set of actions
+ * to optimize the OOP usage & maximize the code blocks re-usability
+ */
 public class PageBase {
     public static AppiumDriver driver;
     public WebDriverWait wait;
