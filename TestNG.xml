@@ -1,8 +1,0 @@
-<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
-<suite name="OS Dependant TestSuite">
-    <test name="OS Dependant Test">
-        <classes>
-            <class name="tests.ShoppingCart"/>
-        </classes>
-    </test>
-</suite>
