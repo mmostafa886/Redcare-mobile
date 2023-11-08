@@ -27,7 +27,7 @@ jobs:
           appium -v
           appium driver install uiautomator2
           appium plugin install --source=npm appium-gestures-plugin
-          appium &>/dev/null &
+          appium --use-plugins=gestures &>/dev/null &
       ################################################################################
       #The part between the 2 lines is used for the creation ofr Cached emulator
       #This may save time when there is several tests to be executed or there is a need to close & open the emulator
