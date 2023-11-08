@@ -25,11 +25,11 @@ public abstract class TestBase {
         // Initialize ConfigReader with the specified config file path
         ConfigFileReader config = new ConfigFileReader(configFilePath);
 
-        caps.setCapability("avd", config.getAVDName());
+//        caps.setCapability("avd", config.getAVDName());
         caps.setCapability("automationName", config.getAutomationName());
         caps.setCapability("platformName", config.getPlatformName());
         caps.setCapability("deviceName", config.getDeviceName());
-        caps.setCapability("platformVersion", config.getPlatformVersion()); //This is commented only for the CI, but it can be used normally when testing locally
+//        caps.setCapability("platformVersion", config.getPlatformVersion()); //This is commented only for the CI, but it can be used normally when testing locally
         caps.setCapability("app", System.getProperty("user.dir") + config.getAppPath());
 
         platform = String.valueOf(config.getPlatformName());
