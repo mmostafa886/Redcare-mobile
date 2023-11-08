@@ -4,6 +4,7 @@ import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.testng.Assert;
 import utils.SwipeAndScroll;
 
 import java.util.List;
@@ -18,6 +19,9 @@ public class ItemDetailsScreen extends PageBase {
     public By itemDefaultPriceEur;
     public By itemDefaultPriceCent;
     public By itemTitle;
+    public By quantityIncrease;
+    public By quantityDecrease;
+    public By currentQuantity;
     SwipeAndScroll swipeAndScroll;
 
     public ItemDetailsScreen(AppiumDriver appiumDriver) {
@@ -31,10 +35,13 @@ public class ItemDetailsScreen extends PageBase {
             addToCartBtn = new By.ById("btn_product_details_footer");
             packageSizeCard = new By.ById("cv_variant");
             soldByResource = "resourceIdMatches(\"shop.shop_apotheke.com.shopapotheke:id/tv_pdp_seller_sender_label\")";
-            goToCartBtn = new By.ById("cl_cart_message");
             itemDefaultPriceEur = new By.ById("tv_price_euro_ab");
             itemDefaultPriceCent = new By.ById("tv_price_cent_ab");
             itemTitle = new By.ById("tv_pdp_name");
+            goToCartBtn = new By.ById("cl_cart_message");
+            quantityIncrease = new By.ById("btn_add");
+            quantityDecrease = new By.ById("btn_subtract");
+            currentQuantity = new By.ById("btn_quantity");
         } else if ("iOS".equalsIgnoreCase(platform)) {
             System.out.println("The Provided Config is for iOS");
         } else {
@@ -87,5 +94,16 @@ public class ItemDetailsScreen extends PageBase {
 
     public String getItemTitle() {
         return getElementText(itemTitle);
+    }
+
+    public String getCurrentQuantity(){
+        return getElementText(currentQuantity);
+    }
+
+    public void increaseQuantity(){
+        int oldAmount = Integer.parseInt(getCurrentQuantity());
+        click(quantityIncrease);
+        int currentAmount = Integer.parseInt(getCurrentQuantity());
+        Assert.assertEquals(currentAmount, oldAmount+1);
     }
 }

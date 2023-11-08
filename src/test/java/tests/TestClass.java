@@ -97,18 +97,17 @@ public class TestClass extends TestBase {
 
         itemDetailsScreen = new ItemDetailsScreen(driver);
         String itemNameFromDetailsScreen = itemDetailsScreen.getItemTitle();
-        String itemPriceFromDetails = itemDetailsScreen.getDefaultPackagePrice();
         itemDetailsScreen.addItemToCart();//Add item to Cart with the default properties (without for Ex. changing quantity)
+        itemDetailsScreen.increaseQuantity();
 
         String nonEmptyCartContentDesc = shoppingCartScreen.getCartContentDesc();
         System.out.println(nonEmptyCartContentDesc);
         shoppingCartScreen.goToShoppingCart();
         String itemNameFromCart = shoppingCartScreen.getFirstCartItemName();
-        String itemPriceFromCart = shoppingCartScreen.getSubTotalText();
 
         Assert.assertTrue(nonEmptyCartContentDesc.contains("new notification"));//Make sure the Cart is not Empty now
         Assert.assertEquals(itemNameFromDetailsScreen,itemNameFromCart);
-        Assert.assertEquals(itemPriceFromDetails,itemPriceFromCart);
+        Assert.assertTrue(shoppingCartScreen.validateSubtotal());
 
         sleep(3000);
     }

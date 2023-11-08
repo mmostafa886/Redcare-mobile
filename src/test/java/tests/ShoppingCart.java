@@ -35,7 +35,7 @@ public class ShoppingCart extends TestBase {
 
     //=======================================
     @Test(priority = 10)
-    public void trialTC() throws InterruptedException {
+    public void onboardingTest() throws InterruptedException {
         splashScreen = new SplashScreen(driver);
         splashScreen.splashScreenInvisibility();
 
@@ -57,7 +57,7 @@ public class ShoppingCart extends TestBase {
         homeScreen = new HomeScreen(driver);
         String actualText = homeScreen.getWelcomeMessageText();
         Assert.assertTrue(actualText.contains("Welcome to Shop Apotheke"));//Verify the WelcomeText
-        sleep(1000);
+//        sleep(1000);
     }
 
     @Test(priority = 20)
@@ -76,12 +76,14 @@ public class ShoppingCart extends TestBase {
 
         itemDetailsScreen = new ItemDetailsScreen(driver);
         itemDetailsScreen.addItemToCart();//Add item to Cart with the default properties (without for Ex. changing quantity)
+        shoppingCartScreen.goToShoppingCart();
+
         String nonEmptyCartContentDesc = shoppingCartScreen.getCartContentDesc();
         System.out.println(nonEmptyCartContentDesc);
         Assert.assertTrue(nonEmptyCartContentDesc.contains("new notification"));//Make sure the Cart is not Empty now
         shoppingCartScreen.goToShoppingCart();
         shoppingCartScreen.removeItemFromCart();
-        sleep(1500);
+//        sleep(1500);
     }
 
     @Test(priority = 30)
@@ -103,6 +105,7 @@ public class ShoppingCart extends TestBase {
         String itemPriceFromDetails = itemDetailsScreen.getDefaultPackagePrice();
         itemDetailsScreen.addItemToCart();//Add item to Cart with the default properties (without for Ex. changing quantity)
 
+        shoppingCartScreen.goToShoppingCart();
         String nonEmptyCartContentDesc = shoppingCartScreen.getCartContentDesc();
         System.out.println(nonEmptyCartContentDesc);
         shoppingCartScreen.goToShoppingCart();
@@ -113,6 +116,40 @@ public class ShoppingCart extends TestBase {
         Assert.assertEquals(itemNameFromDetailsScreen, itemNameFromCart);
         Assert.assertEquals(itemPriceFromDetails, itemPriceFromCart);
 
-        sleep(1500);
+        shoppingCartScreen.goToShoppingCart();
+        shoppingCartScreen.removeItemFromCart();
+//        sleep(1500);
+    }
+
+    @Test(priority = 40)
+    public void chnageQuantityAndCheckPrice() throws InterruptedException, IOException {
+        appOperations = new AppOperations();
+        appOperations.restartApp();
+
+        homeScreen = new HomeScreen(driver);
+        homeScreen.bringCCToDisplay();
+        homeScreen.selectRandomCards();
+
+        shoppingCartScreen = new ShoppingCartScreen(driver);
+        String emptyCartContentDesc = shoppingCartScreen.getCartContentDesc();
+        System.out.println(emptyCartContentDesc);
+        Assert.assertEquals(emptyCartContentDesc, "Cart");//Make sure the Cart is Empty
+
+        itemDetailsScreen = new ItemDetailsScreen(driver);
+        String itemNameFromDetailsScreen = itemDetailsScreen.getItemTitle();
+        itemDetailsScreen.addItemToCart();//Add item to Cart with the default properties (without for Ex. changing quantity)
+        itemDetailsScreen.increaseQuantity();
+
+        shoppingCartScreen.goToShoppingCart();
+        String nonEmptyCartContentDesc = shoppingCartScreen.getCartContentDesc();
+        System.out.println(nonEmptyCartContentDesc);
+        shoppingCartScreen.goToShoppingCart();
+        String itemNameFromCart = shoppingCartScreen.getFirstCartItemName();
+
+        Assert.assertTrue(nonEmptyCartContentDesc.contains("new notification"));//Make sure the Cart is not Empty now
+        Assert.assertEquals(itemNameFromDetailsScreen,itemNameFromCart);
+        Assert.assertTrue(shoppingCartScreen.validateSubtotal());
+
+//        sleep(3000);
     }
 }
