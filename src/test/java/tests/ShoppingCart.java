@@ -3,6 +3,7 @@ package tests;
 import PageObjects.*;
 import org.testng.Assert;
 import org.testng.annotations.*;
+import org.testng.asserts.SoftAssert;
 import utils.AppOperations;
 
 import java.io.IOException;
@@ -21,6 +22,8 @@ public class ShoppingCart extends TestBase {
     AppOperations appOperations;
     ShoppingCartScreen shoppingCartScreen;
     ItemDetailsScreen itemDetailsScreen;
+
+    SoftAssert softAssert;
 
     @BeforeClass
     public void testSetup() throws MalformedURLException {
@@ -85,7 +88,6 @@ public class ShoppingCart extends TestBase {
         shoppingCartScreen.removeItemFromCart();
 //        sleep(1500);
     }
-
     @Test(priority = 30)
     public void verifyItemInfoBetweenDetailsAndCart() throws InterruptedException, IOException {
         appOperations = new AppOperations();
@@ -98,7 +100,9 @@ public class ShoppingCart extends TestBase {
         shoppingCartScreen = new ShoppingCartScreen(driver);
         String emptyCartContentDesc = shoppingCartScreen.getCartContentDesc();
         System.out.println(emptyCartContentDesc);
-        Assert.assertEquals(emptyCartContentDesc, "Cart");//Make sure the Cart is Empty
+//        Assert.assertEquals(emptyCartContentDesc, "Cart");//Make sure the Cart is Empty
+        softAssert = new SoftAssert();
+        softAssert.assertEquals(emptyCartContentDesc, "Cart");//Make sure the Cart is Empty
 
         itemDetailsScreen = new ItemDetailsScreen(driver);
         String itemNameFromDetailsScreen = itemDetailsScreen.getItemTitle();

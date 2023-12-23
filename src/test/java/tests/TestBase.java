@@ -5,6 +5,7 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import utils.CommandExecution;
 import utils.ConfigFileReader;
 
 import java.io.IOException;
@@ -17,6 +18,7 @@ public abstract class TestBase {
     public static String platform;
     public static WebDriverWait wait;
     public static final long WAIT = 15;
+    CommandExecution commandExecution;
 
     public static void genericSetUp() throws MalformedURLException {
         DesiredCapabilities caps = new DesiredCapabilities();
@@ -28,11 +30,11 @@ public abstract class TestBase {
         ConfigFileReader config = new ConfigFileReader(configFilePath);
 
         //Assign every Capability to one of the entries from the properties(config) file
-//        caps.setCapability("avd", config.getAVDName());//This is commented only for the CI, but it can be used normally when testing locally
+        caps.setCapability("avd", config.getAVDName());//This is commented only for the CI, but it can be used normally when testing locally
         caps.setCapability("automationName", config.getAutomationName());
         caps.setCapability("platformName", config.getPlatformName());
         caps.setCapability("deviceName", config.getDeviceName());
-        //caps.setCapability("platformVersion", config.getPlatformVersion()); //This is commented only for the CI, but it can be used normally when testing locally
+        caps.setCapability("platformVersion", config.getPlatformVersion()); //This is commented only for the CI, but it can be used normally when testing locally
         caps.setCapability("app", System.getProperty("user.dir") + config.getAppPath());
 
         /**Get the current platform from the properties file
@@ -54,20 +56,13 @@ public abstract class TestBase {
      * This is supposed to be modified with a selection mechanism (between android & iOS)
      * following the same strategy we did in the same class for starting the driver (in the genericSetUp() method)
      */
-    public static void tearDown() {
+    public void tearDown() {
 //        String command = "killall Simulator";
-        String command = "adb emu kill";
+        String[] command = {"adb", "emu", "kill"};
         if (null != driver) {
             driver.quit();
         }
-        try {
-            // Execute the command
-            Process process = Runtime.getRuntime().exec(command);
-            // Wait for the process to complete
-            process.waitFor();
-            System.out.println("Test Finished.");
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
+        commandExecution = new CommandExecution();
+        commandExecution.executeCommand(command, "Shutdown Emulator");
     }
 }

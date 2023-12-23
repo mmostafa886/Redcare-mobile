@@ -32,3 +32,43 @@ Are mainly used to provide the environment specs at which the Text will be execu
 ### To Generate Allure Report
 - mvn clean test -Pgeneric -DconfigFilePath=configFiles/android.properties allure:serve
 
+### To keep the "Allure-Report" execution Trials
+- modify the pom xml (the allure plugin section) to be like the following
+                      <plugin>
+                        <groupId>io.qameta.allure</groupId>
+                        <artifactId>allure-maven</artifactId>
+                        <version>2.12.0</version>
+                        <configuration>
+                            <resultsDirectory>${project.basedir}/allure-results</resultsDirectory>
+                        </configuration>
+                    </plugin>
+- use the execution command (mvn clean test -Pgeneric -DconfigFilePath=configFiles/android.properties  allure:serve  -Dallure.results.directory=./allure-results)
+- All the runs can be found under the "Retries" tab in each TestCase.
+
+### To keep the "Allure-Report" execution History
+- Same POM modification
+- Execute the following terminal commands
+  rm -rf allure-results
+  mvn clean test -Pgeneric -DconfigFilePath=configFiles/android.properties
+  cp -r allure-report/history allure-results/
+  allure generate --clean ./allure-results -o ./allure-report
+  allure open ./allure-report
+
+### To start the Appium Server
+- appium >> to start the appium server without any plugins
+- appium --use-plugins=gestures >> With the gesture plugin
+
+
+============================================
+rm -rf allure-results      >>Remove the old (allure-results) folder
+mvn clean test -Pgeneric -DconfigFilePath=configFiles/android.properties    >>Execute the test
+cp -r allure-report/history allure-results/     >>Copy the history folder from (allure-reports) to (allure-results) folder
+allure generate --clean ./allure-results -o ./allure-report     >>Clean the reports folder (delete old data) & generate the report again from the results folder
+allure open ./allure-report     >>Open the newly generated report with all the old executions in (History) tab
+
+
+rm -rf allure-results
+mvn clean test -Pgeneric -DconfigFilePath=configFiles/android.properties
+cp -r allure-report/history allure-results/
+allure generate --clean ./allure-results -o ./allure-report
+allure open ./allure-report

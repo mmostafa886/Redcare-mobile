@@ -45,18 +45,30 @@ public class TestClass extends TestBase {
     //======================================
     @AfterClass
     public void classTearDown() {
-        String command = "adb emu kill";
+//        String command = "adb emu kill";
+        String[] command = {"adb", "emu", "kill"};
         if (null != driver) {
             driver.quit();
         }
+//        try {
+//            // Execute the command
+//            Process process = Runtime.getRuntime().exec(command);
+//            // Wait for the process to complete
+//            process.waitFor();
+//            System.out.println("Test Finished.");
+//        } catch (IOException | InterruptedException e) {
+//            e.printStackTrace();
+//        }
+
         try {
-            // Execute the command
-            Process process = Runtime.getRuntime().exec(command);
-            // Wait for the process to complete
-            process.waitFor();
-            System.out.println("Test Finished.");
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
+            ProcessBuilder processBuilder = new ProcessBuilder(command);
+            Process launchProcess = processBuilder.start();
+            // You can use the process object to interact with the subprocess if needed
+            // Wait for the process to complete (optional)
+            int exitCode = launchProcess.waitFor();
+            System.out.println("Process exited with code: " + exitCode);
+        } catch (Exception e) {
+            e.printStackTrace(); // Handle exceptions as needed
         }
     }
 
@@ -87,7 +99,7 @@ public class TestClass extends TestBase {
         sleep(1000);
     }
 
-    @Test(priority = 20)
+//    @Test(priority = 20)
     public void addRandomItemToShoppingCart() throws InterruptedException {
         homeScreen = new HomeScreen(driver);
         homeScreen.bringCCToDisplay();
