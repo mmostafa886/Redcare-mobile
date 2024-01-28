@@ -4,6 +4,6 @@ target/
 .idea
 .allure/
 allure-results
-allure-report/
-test-output/
-apps/
+allure-report
+test-output
+apps
