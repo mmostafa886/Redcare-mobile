@@ -14,7 +14,11 @@ public class ItemDetailsScreen extends PageBase {
 
     public By addToCartBtn;
     public By packageSizeCard;
+
+    public String packageSizeResource;
     public String soldByResource;
+
+    public By soldBy;
     public By goToCartBtn;
     public By itemDefaultPriceEur;
     public By itemDefaultPriceCent;
@@ -33,8 +37,10 @@ public class ItemDetailsScreen extends PageBase {
         String platform = String.valueOf(driver.getCapabilities().getPlatformName());
         if ("Android".equalsIgnoreCase(platform)) {
             addToCartBtn = new By.ById("btn_product_details_footer");
+            packageSizeResource = "resourceIdMatches(\"shop.shop_apotheke.com.shopapotheke:id/sv_variants_container\")";
             packageSizeCard = new By.ById("cv_variant");
             soldByResource = "resourceIdMatches(\"shop.shop_apotheke.com.shopapotheke:id/tv_pdp_seller_sender_label\")";
+            soldBy = new By.ById("tv_pdp_seller_sender_label");
             itemDefaultPriceEur = new By.ById("tv_price_euro_ab");
             itemDefaultPriceCent = new By.ById("tv_price_cent_ab");
             itemTitle = new By.ById("tv_pdp_name");
@@ -71,7 +77,8 @@ public class ItemDetailsScreen extends PageBase {
         String itemCurrentPrice;
         //Here we need to scroll to a lower section of the item details screen in order to be able to the get price components
         swipeAndScroll = new SwipeAndScroll(driver);
-        swipeAndScroll.scrollToAnElementByAttribute(driver, soldByResource);
+//        wait.until(ExpectedConditions.elementToBeClickable(soldBy));
+        swipeAndScroll.scrollToAnElementByAttribute(driver, packageSizeResource);
         /*The next piece of code (the for loop & its contents) gets the default selected card (each item has one)
         by getting the card with the property "checked" equals "true" (only one card has this property set true)
          */

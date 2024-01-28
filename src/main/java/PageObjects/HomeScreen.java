@@ -2,11 +2,8 @@ package PageObjects;
 
 import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import utils.SwipeAndScroll;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class HomeScreen extends PageBase {
@@ -16,8 +13,11 @@ public class HomeScreen extends PageBase {
     public By recommendationCardsList;
     public String recommndCListResource;
     public String contentCardTitleResource;
+
     public By contentCardTitle;
     public String sampleElement;
+
+    public  By webPopUp;
 
     public HomeScreen(AppiumDriver appiumDriver) {
         super(appiumDriver);
@@ -33,6 +33,7 @@ public class HomeScreen extends PageBase {
             contentCardTitle = By.id("tv_product_name");
             contentCardTitleResource = "resourceIdMatches(\"shop.shop_apotheke.com.shopapotheke:id/tv_product_name\")";
             sampleElement = "description(\"//*[@text='Grippostad C® bei Erkältung und grippalen Infekten']\")";
+            webPopUp = By.className("android.webkit.WebView");
         } else if ("iOS".equalsIgnoreCase(platform)) {
             System.out.println("The Provided Config is for iOS");
             //In case we want to use iOS, we need to provide the corresponding locators as done for "Android"
@@ -41,7 +42,8 @@ public class HomeScreen extends PageBase {
         }
     }
 
-    public String getWelcomeMessageText() {
+    public String getWelcomeMessageText() throws Exception {
+       removeWebPopUp(webPopUp);
         return getElementText(welcomeMessage);
     }
 
@@ -49,6 +51,7 @@ public class HomeScreen extends PageBase {
         //Scroll down till reaching the "Recommendation" content cards section
         swipeAndScroll = new SwipeAndScroll(driver);
         swipeAndScroll.scrollToAnElementByAttribute(driver, recommndCListResource);
+        System.out.println("ContentCards in Display");
     }
 
     //    The problem I faced with this function is that, once the screen is swiped, the content card is not present in the DOManymore

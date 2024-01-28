@@ -2,6 +2,7 @@ package PageObjects;
 
 import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -15,7 +16,7 @@ import java.time.Duration;
 public class PageBase {
     public static AppiumDriver driver;
     public WebDriverWait wait;
-    public static final long WAIT = 15;
+    public static final long WAIT = 50;
 
     public PageBase(AppiumDriver appiumDriver) {
         driver = appiumDriver;
@@ -63,6 +64,25 @@ public class PageBase {
 
     public static WebElement customLocate(By byObject) {
         return driver.findElement(byObject);
+    }
+
+
+    public void removeWebPopUp(By popUp){
+        try {
+            waitForVisibility(popUp);
+            driver.navigate().back();
+            System.out.println("Clicked Back, Pop-up removed");
+        } catch (NoSuchElementException e) {
+            e.printStackTrace();
+            System.out.println("Element Not found, no action to be taken");
+        }
+        finally {
+            System.out.println("Welcome to your First Login");
+        }
+    }
+
+    public void backToPreviousScreen(){
+        driver.navigate().back();
     }
 
 }

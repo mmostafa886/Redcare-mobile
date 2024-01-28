@@ -18,6 +18,9 @@ public class ShoppingCartScreen extends PageBase {
     public By itemPriceEur;
     public By itemPriceCent;
     public By removeItem;
+
+    public By itemCard;
+    public  String cardItemResource;
     public By addItem;
     public By currentAmount;
     public By emptyCardLabel;
@@ -40,7 +43,9 @@ public class ShoppingCartScreen extends PageBase {
             itemPriceEur = new By.ById("tv_price_euro_ab");
             itemPriceCent = new By.ById("tv_price_cent_ab");
             removeItem = new By.ById("btn_subtract");
-            addItem = new By.ById("btn_subtract");
+            itemCard = new By.ById("rv_sc_prodlist");
+            cardItemResource = "resourceIdMatches(\"shop.shop_apotheke.com.shopapotheke:id/rv_sc_prodlist\")";
+            addItem = new By.ById("btn_add");
             currentAmount = new By.ById("btn_quantity");
             emptyCardLabel = new By.ById("tv_message");
         } else if ("iOS".equalsIgnoreCase(platform)) {
@@ -72,6 +77,16 @@ public class ShoppingCartScreen extends PageBase {
         wait.until(ExpectedConditions.visibilityOf(screenTitle));
     }
 
+
+    public void bringAddRemoveToDisplay(){
+        swipeAndScroll = new SwipeAndScroll(driver);
+        swipeAndScroll.scrollToAnElementByAttribute(driver, cardItemResource);
+    }
+
+    public void bringSubTotalToDisplay(){
+        swipeAndScroll = new SwipeAndScroll(driver);
+        swipeAndScroll.scrollToAnElementByAttribute(driver, cardItemResource);
+    }
     public void removeItemFromCart() {
         click(removeItem);
         wait.until(ExpectedConditions.presenceOfElementLocated(emptyCardLabel));

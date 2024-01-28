@@ -3,7 +3,6 @@ package PageObjects;
 import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.By;
 
-
 public class SplashScreen extends PageBase {
 
     public By splashScreen;

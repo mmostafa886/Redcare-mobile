@@ -48,27 +48,29 @@ Are mainly used to provide the environment specs at which the Text will be execu
 ### To keep the "Allure-Report" execution History
 - Same POM modification
 - Execute the following terminal commands
+  ``````
   rm -rf allure-results
   mvn clean test -Pgeneric -DconfigFilePath=configFiles/android.properties
   cp -r allure-report/history allure-results/
   allure generate --clean ./allure-results -o ./allure-report
   allure open ./allure-report
+  ``````
 
-### To start the Appium Server
-- appium >> to start the appium server without any plugins
-- appium --use-plugins=gestures >> With the gesture plugin
+### To Start/Stop the Appium Server
+- `appium` >> to start the appium server without any plugins.
+- `appium --use-plugins=gestures` >> With the gesture plugin.
+- `pkill -f appium` >> To stop the running Appium instances.
 
+### Automate the script Execution
+- An executable file for the test execution `run.sh` is created.
+- This file contains all the needed steps starts with starting appium server & ends with opening the Allure report.
 
 ============================================
-rm -rf allure-results      >>Remove the old (allure-results) folder
-mvn clean test -Pgeneric -DconfigFilePath=configFiles/android.properties    >>Execute the test
-cp -r allure-report/history allure-results/     >>Copy the history folder from (allure-reports) to (allure-results) folder
-allure generate --clean ./allure-results -o ./allure-report     >>Clean the reports folder (delete old data) & generate the report again from the results folder
-allure open ./allure-report     >>Open the newly generated report with all the old executions in (History) tab
 
-
-rm -rf allure-results
-mvn clean test -Pgeneric -DconfigFilePath=configFiles/android.properties
-cp -r allure-report/history allure-results/
-allure generate --clean ./allure-results -o ./allure-report
-allure open ./allure-report
+### Script Optimizations
+- After updating the appium to the latest version, the script is causing issues on Android 12.
+- Starting from Android12L (API level 32), the scripts are working fine.
+- Add 50 points to each scroll >> TBD.
+- Optimize the driver creation process >> TBD.
+- Use the ThreadLocal >> TBD.
+- Check the parallel execution >> TBD.

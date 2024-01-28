@@ -5,14 +5,21 @@ import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Pause;
+import org.openqa.selenium.interactions.PointerInput;
+import org.openqa.selenium.interactions.Sequence;
 import org.openqa.selenium.remote.RemoteWebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.Map;
 /**
  * A set of methods to handle the Swipe/Scroll in all directions instead of re-use the same block of code several times
  * whenever needed
  */
+import static java.time.Duration.ofMillis;
+import static java.util.Collections.singletonList;
 import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
 
 public class SwipeAndScroll extends PageBase {
@@ -31,11 +38,12 @@ public class SwipeAndScroll extends PageBase {
         /*The locator AppiumBy.id("android:id/list") is used to locate either the slider (which didn't work in our case)
          * Or in our case the 'list' containing all the elements
          * The reason for the need to do this is that: the element that we want to tab is not present in the current view till scrolling down*/
-        RemoteWebElement scrollView = (RemoteWebElement) wait.until(presenceOfElementLocated(sliderElement));
-        driver.executeScript("gesture: swipe", Map.of("elementId", scrollView.getId(),
-                "percentage", 25,
-                "direction", "left"));
+//        RemoteWebElement scrollView = (RemoteWebElement) wait.until(presenceOfElementLocated(sliderElement));
+        RemoteWebElement scrollView = (RemoteWebElement) wait.until(ExpectedConditions.elementToBeClickable(sliderElement));
+        driver.executeScript("gesture: swipe", Map.of("elementId", scrollView.getId(), "percentage", 25, "direction", "left"));
     }
+
+
 
     public void scrollVertically(By sliderElement) {
         RemoteWebElement scrollView = (RemoteWebElement) wait.until(presenceOfElementLocated(sliderElement));
@@ -55,4 +63,20 @@ public class SwipeAndScroll extends PageBase {
         driver.findElement(By.xpath(selectorValue)).click();
     }
 
+public void scrollElementUp(By elementBy, int yPoints) {
+    WebElement slider = driver.findElement(elementBy);
+    Point source = slider.getLocation();
+
+    PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, "finger");
+    Sequence sequence = new Sequence(finger, 1);
+
+    sequence.addAction(finger.createPointerMove(ofMillis(0), PointerInput.Origin.viewport(), source.x, source.y + yPoints));
+    sequence.addAction(finger.createPointerDown(PointerInput.MouseButton.MIDDLE.asArg()));
+    sequence.addAction(new Pause(finger, ofMillis(600)));
+    sequence.addAction(finger.createPointerMove(ofMillis(600), PointerInput.Origin.viewport(), source.x, source.y));
+    sequence.addAction(finger.createPointerUp(PointerInput.MouseButton.MIDDLE.asArg()));
+
+    driver.perform(singletonList(sequence));
+    System.out.println("Scrolled Vertically");
+}
 }
