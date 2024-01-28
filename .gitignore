@@ -2,7 +2,7 @@ target/
 .vscode/
 .DS_Store
 .idea
-.allure
+.allure/
 allure-results
 allure-report
 test-output
