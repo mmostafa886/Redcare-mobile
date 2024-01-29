@@ -70,7 +70,8 @@ Are mainly used to provide the environment specs at which the Text will be execu
 ### Script Optimizations
 - After updating the appium to the latest version, the script is causing issues on Android 12.
 - Starting from Android12L (API level 32), the scripts are working fine.
-- Add 50 points to each scroll >> TBD.
-- Optimize the driver creation process >> TBD.
+- Optimize the scroll methods >> Done
+- Optimize the driver creation process >> Done.
 - Use the ThreadLocal >> TBD.
 - Check the parallel execution >> TBD.
+- check a replacement for `[driver = new AndroidDriver(new URL("http://localhost:4723"), caps);]` >> TBD

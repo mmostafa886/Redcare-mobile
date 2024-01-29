@@ -17,17 +17,17 @@ public class HomeScreen extends PageBase {
     public By contentCardTitle;
     public String sampleElement;
 
-    public  By webPopUp;
+    private By webPopUp;
 
-    public By sliderElement;
+    private By sliderElement;
 
     public HomeScreen(AppiumDriver appiumDriver) {
         super(appiumDriver);
         intializePShoppingElements();
     }
 
-    public void intializePShoppingElements() {
-        String platform = String.valueOf(driver.getCapabilities().getPlatformName());
+    private void intializePShoppingElements() {
+        String platform = String.valueOf(getDriver().getCapabilities().getPlatformName());
         if ("Android".equalsIgnoreCase(platform)) {
             welcomeMessage = By.id("tv_home_welcome_title");
             recommendationCardsList = By.id("rv_list");
@@ -45,14 +45,14 @@ public class HomeScreen extends PageBase {
         }
     }
 
-    public String getWelcomeMessageText() throws Exception {
+    public String getWelcomeMessageText(){
        removeWebPopUp(webPopUp);
         return getElementText(welcomeMessage);
     }
 
     public void bringCCToDisplay() {
         //Scroll down till reaching the "Recommendation" content cards section
-        swipeAndScroll = new SwipeAndScroll(driver);
+        swipeAndScroll = new SwipeAndScroll(getDriver());
 //        swipeAndScroll.scrollToAnElementByAttribute(driver, recommndCListResource);
         swipeAndScroll.scrollVerticallyGest(sliderElement,"tv_product_name");
         System.out.println("ContentCards in Display");

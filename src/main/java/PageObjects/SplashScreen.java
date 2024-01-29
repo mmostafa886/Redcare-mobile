@@ -5,15 +5,15 @@ import org.openqa.selenium.By;
 
 public class SplashScreen extends PageBase {
 
-    public By splashScreen;
+    private By splashScreen;
 
     public SplashScreen(AppiumDriver appiumDriver) {
         super(appiumDriver);
         intializeSplashElements();
     }
 
-    public void intializeSplashElements() {
-        String platform = String.valueOf(driver.getCapabilities().getPlatformName());
+    private void intializeSplashElements() {
+        String platform = String.valueOf(getDriver().getCapabilities().getPlatformName());
         if ("Android".equalsIgnoreCase(platform)) {
             splashScreen = new By.ById("cl_splash");
         } else if ("iOS".equalsIgnoreCase(platform)) {

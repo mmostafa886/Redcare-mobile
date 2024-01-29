@@ -1,9 +1,10 @@
 package tests;
 
 import PageObjects.*;
+import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
+import lombok.extern.java.Log;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
@@ -11,6 +12,7 @@ import utils.AppOperations;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.logging.Level;
 
 import static java.lang.Thread.sleep;
 
@@ -18,7 +20,10 @@ import static java.lang.Thread.sleep;
  * This is not the main testing class
  * but rather a class that is used for trying the TestCases/Methods before being added to the Test Classes
  */
-public class TestClass extends TestBase {
+@Log
+public class TestClass {
+
+    private AppiumDriver driver;
     SplashScreen splashScreen;
     CountrySelectScreen countrySelectScreen;
     LanguageSelectScreen languageSelectScreen;
@@ -69,7 +74,8 @@ public class TestClass extends TestBase {
             int exitCode = launchProcess.waitFor();
             System.out.println("Process exited with code: " + exitCode);
         } catch (Exception e) {
-            e.printStackTrace(); // Handle exceptions as needed
+            log.log(Level.ALL, e.getMessage());
+//            e.printStackTrace(); // Handle exceptions as needed
         }
     }
 
@@ -116,8 +122,8 @@ public class TestClass extends TestBase {
 
         itemDetailsScreen = new ItemDetailsScreen(driver);
         itemDetailsScreen.addItemToCart();//Add item to Cart with the default properties (without for Ex. changing quantity)
-        shoppingCartScreen.goToShoppingCart();
 
+        shoppingCartScreen.goToShoppingCart();
         String nonEmptyCartContentDesc = shoppingCartScreen.getCartContentDesc();
         System.out.println(nonEmptyCartContentDesc);
         Assert.assertTrue(nonEmptyCartContentDesc.contains("new notification"));//Make sure the Cart is not Empty now
@@ -161,7 +167,7 @@ public class TestClass extends TestBase {
 //        sleep(1500);
     }
     @Test(priority = 40)
-    public void changeQuantityAndCheckPrice() throws InterruptedException {
+    public void changeQuantityAndCheckPrice() {
         appOperations = new AppOperations();
         appOperations.restartApp();
 

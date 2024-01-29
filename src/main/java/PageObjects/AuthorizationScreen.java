@@ -6,15 +6,15 @@ import org.openqa.selenium.By;
 
 public class AuthorizationScreen extends PageBase {
 
-    public By skipAuthBtn;
+    private By skipAuthBtn;
 
     public AuthorizationScreen(AppiumDriver appiumDriver) {
         super(appiumDriver);
         intializeAuthElements();
     }
 
-    public void intializeAuthElements() {
-        String platform = String.valueOf(driver.getCapabilities().getPlatformName());
+    private void intializeAuthElements() {
+        String platform = String.valueOf(getDriver().getCapabilities().getPlatformName());
         if ("Android".equalsIgnoreCase(platform)) {
             skipAuthBtn = new By.ById("btn_continue_as_guest");
         } else if ("iOS".equalsIgnoreCase(platform)) {

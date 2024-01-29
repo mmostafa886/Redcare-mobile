@@ -10,12 +10,12 @@ import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.Map;
+import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
+
 /**
  * A set of methods to handle the Swipe/Scroll in all directions instead of re-use the same block of code several times
  * whenever needed
  */
-import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
-
 public class SwipeAndScroll extends PageBase {
 
     public SwipeAndScroll(AppiumDriver appiumDriver) {
@@ -33,32 +33,31 @@ public class SwipeAndScroll extends PageBase {
          * Or in our case the 'list' containing all the elements
          * The reason for the need to do this is that: the element that we want to tab is not present in the current view till scrolling down*/
 //        RemoteWebElement scrollView = (RemoteWebElement) wait.until(presenceOfElementLocated(sliderElement));
-        RemoteWebElement scrollView = (RemoteWebElement) wait.until(ExpectedConditions.elementToBeClickable(sliderElement));
-        driver.executeScript("gesture: swipe", Map.of("elementId", scrollView.getId(), "percentage", 25, "direction", "left"));
+        RemoteWebElement scrollView = (RemoteWebElement) getWait().until(ExpectedConditions.elementToBeClickable(sliderElement));
+        getDriver().executeScript("gesture: swipe", Map.of("elementId", scrollView.getId(), "percentage", 25, "direction", "left"));
     }
 
-
     public void scrollVertically(By sliderElement) {
-        RemoteWebElement scrollView = (RemoteWebElement) wait.until(presenceOfElementLocated(sliderElement));
-        driver.executeScript("gesture: swipe", Map.of("elementId", scrollView.getId(),
+        RemoteWebElement scrollView = (RemoteWebElement) getWait().until(presenceOfElementLocated(sliderElement));
+        getDriver().executeScript("gesture: swipe", Map.of("elementId", scrollView.getId(),
                 "percentage", 25,
                 "direction", "up"));
     }
 
     public void scrollHorizontalAndSelectItem(By sliderElement, String selectorValue) {
-        RemoteWebElement scrollView = (RemoteWebElement) wait.until(presenceOfElementLocated(sliderElement));
-        driver.executeScript("gesture: scrollElementIntoView", ImmutableMap.of("scrollableView", scrollView.getId(),
+        RemoteWebElement scrollView = (RemoteWebElement) getWait().until(presenceOfElementLocated(sliderElement));
+        getDriver().executeScript("gesture: scrollElementIntoView", ImmutableMap.of("scrollableView", scrollView.getId(),
                 "strategy", "xpath",
                 "selector", selectorValue,
                 "percentage", 30,
                 "direction", "up",
                 "maxCount", 3));//The max count of swipes that the script will do before failing to find the element
-        driver.findElement(By.xpath(selectorValue)).click();
+        getDriver().findElement(By.xpath(selectorValue)).click();
     }
 
     public void scrollVerticallyGest(By sliderElement, String selectorValue) {
-        RemoteWebElement scrollView = (RemoteWebElement) wait.until(presenceOfElementLocated(sliderElement));
-        driver.executeScript("gesture: scrollElementIntoView", ImmutableMap.of("scrollableView", scrollView.getId(),
+        RemoteWebElement scrollView = (RemoteWebElement) getWait().until(presenceOfElementLocated(sliderElement));
+        getDriver().executeScript("gesture: scrollElementIntoView", ImmutableMap.of("scrollableView", scrollView.getId(),
                 "strategy", "id",
                 "selector", selectorValue,
                 "percentage", 30,

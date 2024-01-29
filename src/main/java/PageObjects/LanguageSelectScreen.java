@@ -2,25 +2,22 @@ package PageObjects;
 
 import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.time.Duration;
 
 
 public class LanguageSelectScreen extends PageBase {
 
-    public By englishLanguage;
-    public By languageFrame;
+    private By englishLanguage;
+    private By languageFrame;
 
 
     public LanguageSelectScreen(AppiumDriver appiumDriver) {
         super(appiumDriver);
-        wait = new WebDriverWait(driver, Duration.ofSeconds(WAIT), Duration.ofMillis(200));
+//       wait = new WebDriverWait(getDriver(), Duration.ofSeconds(WAIT), Duration.ofMillis(200));
         intializeLanguageSelectElements();
     }
 
-    public void intializeLanguageSelectElements() {
-        String platform = String.valueOf(driver.getCapabilities().getPlatformName());
+    private void intializeLanguageSelectElements() {
+        String platform = String.valueOf(getDriver().getCapabilities().getPlatformName());
         //Based on the platform retrieved from the current test, The locator is retrieved (whether Android or iOS)
         if ("Android".equalsIgnoreCase(platform)) {
             englishLanguage = By.xpath("//*[@text='English']");

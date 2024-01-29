@@ -36,26 +36,26 @@ public class ShoppingCart extends TestBase {
 
     //=======================================
     @Test(priority = 10)
-    public void onboardingTest() throws Exception {
-        splashScreen = new SplashScreen(driver);
+    public void onboardingTest() {
+        splashScreen = new SplashScreen(getDriver());
         splashScreen.splashScreenInvisibility();
 
-        countrySelectScreen = new CountrySelectScreen(driver);
+        countrySelectScreen = new CountrySelectScreen(getDriver());
         countrySelectScreen.SelectCountry();
 
-        languageSelectScreen = new LanguageSelectScreen(driver);
+        languageSelectScreen = new LanguageSelectScreen(getDriver());
         languageSelectScreen.SelectLanguage();
 
-        pShoppingScreen = new PersonalizedShoppingScreen(driver);
+        pShoppingScreen = new PersonalizedShoppingScreen(getDriver());
         pShoppingScreen.PShoppingAgree();
 
-        authorizationScreen = new AuthorizationScreen(driver);
+        authorizationScreen = new AuthorizationScreen(getDriver());
         authorizationScreen.skipAuthorization();
 
-        ePrescriptionScreen = new EPrescriptionScreen(driver);
+        ePrescriptionScreen = new EPrescriptionScreen(getDriver());
         ePrescriptionScreen.skipEPrescripe();
 
-        homeScreen = new HomeScreen(driver);
+        homeScreen = new HomeScreen(getDriver());
         String actualText = homeScreen.getWelcomeMessageText();
         Assert.assertTrue(actualText.contains("Welcome to Shop Apotheke"));//Verify the WelcomeText
         //        sleep(1000);
@@ -66,16 +66,16 @@ public class ShoppingCart extends TestBase {
         appOperations = new AppOperations();
         appOperations.restartApp();
 
-        homeScreen = new HomeScreen(driver);
+        homeScreen = new HomeScreen(getDriver());
         homeScreen.bringCCToDisplay();
         homeScreen.selectRandomCards();
 
-        shoppingCartScreen = new ShoppingCartScreen(driver);
+        shoppingCartScreen = new ShoppingCartScreen(getDriver());
         String emptyCartContentDesc = shoppingCartScreen.getCartContentDesc();
         System.out.println(emptyCartContentDesc);
         Assert.assertEquals(emptyCartContentDesc, "Cart");//Make sure the Cart is Empty
 
-        itemDetailsScreen = new ItemDetailsScreen(driver);
+        itemDetailsScreen = new ItemDetailsScreen(getDriver());
         itemDetailsScreen.addItemToCart();//Add item to Cart with the default properties (without for Ex. changing quantity)
         shoppingCartScreen.goToShoppingCart();
 
@@ -91,17 +91,17 @@ public class ShoppingCart extends TestBase {
         appOperations = new AppOperations();
         appOperations.restartApp();
 
-        homeScreen = new HomeScreen(driver);
+        homeScreen = new HomeScreen(getDriver());
         homeScreen.bringCCToDisplay();
         homeScreen.selectRandomCards();
 
-        shoppingCartScreen = new ShoppingCartScreen(driver);
+        shoppingCartScreen = new ShoppingCartScreen(getDriver());
         String emptyCartContentDesc = shoppingCartScreen.getCartContentDesc();
         System.out.println(emptyCartContentDesc);
         softAssert = new SoftAssert();
         softAssert.assertEquals(emptyCartContentDesc, "Cart");//Make sure the Cart is Empty
 
-        itemDetailsScreen = new ItemDetailsScreen(driver);
+        itemDetailsScreen = new ItemDetailsScreen(getDriver());
         String itemNameFromDetailsScreen = itemDetailsScreen.getItemTitle();
         String itemPriceFromDetails = itemDetailsScreen.getDefaultPackagePrice();
         itemDetailsScreen.addItemToCart();//Add item to Cart with the default properties (without for Ex. changing quantity)
@@ -121,20 +121,20 @@ public class ShoppingCart extends TestBase {
 //        sleep(1500);
     }
     @Test(priority = 40)
-    public void changeQuantityAndCheckPrice() throws InterruptedException {
+    public void changeQuantityAndCheckPrice() {
         appOperations = new AppOperations();
         appOperations.restartApp();
 
-        homeScreen = new HomeScreen(driver);
+        homeScreen = new HomeScreen(getDriver());
         homeScreen.bringCCToDisplay();
         homeScreen.selectRandomCards();
 
-        shoppingCartScreen = new ShoppingCartScreen(driver);
+        shoppingCartScreen = new ShoppingCartScreen(getDriver());
         String emptyCartContentDesc = shoppingCartScreen.getCartContentDesc();
         System.out.println(emptyCartContentDesc);
         Assert.assertEquals(emptyCartContentDesc, "Cart");//Make sure the Cart is Empty
 
-        itemDetailsScreen = new ItemDetailsScreen(driver);
+        itemDetailsScreen = new ItemDetailsScreen(getDriver());
         String itemNameFromDetailsScreen = itemDetailsScreen.getItemTitle();
         itemDetailsScreen.addItemToCart();//Add item to Cart with the default properties (without for Ex. changing quantity)
         itemDetailsScreen.increaseQuantity();

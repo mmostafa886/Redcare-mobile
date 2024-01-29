@@ -1,12 +1,9 @@
 package PageObjects;
 
 import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.functions.ExpectedCondition;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.testng.Assert;
 import utils.SwipeAndScroll;
 
 import java.util.List;
@@ -14,20 +11,19 @@ import java.util.List;
 
 public class ItemDetailsScreen extends PageBase {
 
-    public By addToCartBtn;
-    public By packageSizeCard;
-    public By shoppingCartIcon;
-    public String packageSizeResource;
-    public String soldByResource;
-
-    public By soldBy;
-    public By goToCartBtn;
-    public By itemDefaultPriceEur;
-    public By itemDefaultPriceCent;
-    public By itemTitle;
-    public By quantityIncrease;
-    public By quantityDecrease;
-    public By currentQuantity;
+    private By addToCartBtn;
+    private By packageSizeCard;
+    private By shoppingCartIcon;
+    private String packageSizeResource;
+    private String soldByResource;
+    private By soldBy;
+    private By goToCartBtn;
+    private By itemDefaultPriceEur;
+    private By itemDefaultPriceCent;
+    private By itemTitle;
+    private By quantityIncrease;
+    private By quantityDecrease;
+    private By currentQuantity;
     SwipeAndScroll swipeAndScroll;
 
     public ItemDetailsScreen(AppiumDriver appiumDriver) {
@@ -35,8 +31,8 @@ public class ItemDetailsScreen extends PageBase {
         intializeItemDetailsElements();
     }
 
-    public void intializeItemDetailsElements() {
-        String platform = String.valueOf(driver.getCapabilities().getPlatformName());
+    private void intializeItemDetailsElements() {
+        String platform = String.valueOf(getDriver().getCapabilities().getPlatformName());
         if ("Android".equalsIgnoreCase(platform)) {
             shoppingCartIcon = new By.ById("tab_bar_navigation_cart");
             addToCartBtn = new By.ById("btn_product_details_footer");
@@ -62,7 +58,7 @@ public class ItemDetailsScreen extends PageBase {
     public void addItemToCart() {
         click(addToCartBtn);
         //This wait is mandatory to make sure that the Item is already added to the cart before proceeding to the next step
-        wait.until(ExpectedConditions.presenceOfElementLocated(goToCartBtn));
+        getWait().until(ExpectedConditions.presenceOfElementLocated(goToCartBtn));
     }
 
     public String getDefaultPackagePrice() {
@@ -70,7 +66,7 @@ public class ItemDetailsScreen extends PageBase {
         of this item. It requires processing as it is not placed in one element that can be located through the normal ways
          */
         //Getting a list of all the package/size cards
-        List<WebElement> packageCards = driver.findElements(packageSizeCard);
+        List<WebElement> packageCards = getDriver().findElements(packageSizeCard);
         //The target of each of the following elements can be understood from the its names
         WebElement itemPriceEur;
         WebElement itemPriceCent;
@@ -79,9 +75,9 @@ public class ItemDetailsScreen extends PageBase {
         String itemPriceCentText;
         String itemCurrentPrice;
         //Here we need to scroll to a lower section of the item details screen in order to be able to the get price components
-        swipeAndScroll = new SwipeAndScroll(driver);
+        swipeAndScroll = new SwipeAndScroll(getDriver());
 //        wait.until(ExpectedConditions.elementToBeClickable(soldBy));
-        swipeAndScroll.scrollToAnElementByAttribute(driver, packageSizeResource);
+        swipeAndScroll.scrollToAnElementByAttribute(getDriver(), packageSizeResource);
         /*The next piece of code (the for loop & its contents) gets the default selected card (each item has one)
         by getting the card with the property "checked" equals "true" (only one card has this property set true)
          */
@@ -131,12 +127,10 @@ public class ItemDetailsScreen extends PageBase {
         int oldAmount = Integer.parseInt(getCurrentQuantity());
         System.out.println("Old Amount: "+oldAmount);
         click(quantityIncrease);
-//        wait.until(ExpectedConditions.textToBePresentInElementLocated(currentQuantity,String.valueOf(oldAmount+1)));
-
-        wait.until(ExpectedConditions.not(ExpectedConditions.textToBe(currentQuantity, String.valueOf(oldAmount))));
+//        wait.until(ExpectedConditions.not(ExpectedConditions.textToBe(currentQuantity, String.valueOf(oldAmount))));
         int currentAmount = Integer.parseInt(getCurrentQuantity());
-        wait.until(ExpectedConditions.textToBePresentInElementLocated(currentQuantity,String.valueOf(currentAmount)));
+//        wait.until(ExpectedConditions.textToBePresentInElementLocated(currentQuantity,String.valueOf(currentAmount)));
         System.out.println("Current Amount: "+currentAmount);
-        wait.until(ExpectedConditions.attributeContains(shoppingCartIcon,"content-desc", String.valueOf(currentAmount)));
+        getWait().until(ExpectedConditions.attributeContains(shoppingCartIcon,"content-desc", String.valueOf(currentAmount)));
     }
 }

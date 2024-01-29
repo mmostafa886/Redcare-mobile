@@ -5,15 +5,15 @@ import org.openqa.selenium.By;
 
 public class PersonalizedShoppingScreen extends PageBase {
 
-    public By pShoppoingAgreeBtn;
+    private By pShoppoingAgreeBtn;
 
     public PersonalizedShoppingScreen(AppiumDriver appiumDriver) {
         super(appiumDriver);
         intializePShoppingElements();
     }
 
-    public void intializePShoppingElements() {
-        String platform = String.valueOf(driver.getCapabilities().getPlatformName());
+    private void intializePShoppingElements() {
+        String platform = String.valueOf(getDriver().getCapabilities().getPlatformName());
         if ("Android".equalsIgnoreCase(platform)) {
             pShoppoingAgreeBtn = By.id("btn_agreed");
         } else if ("iOS".equalsIgnoreCase(platform)) {

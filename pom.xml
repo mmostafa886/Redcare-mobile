@@ -48,6 +48,14 @@
             <version>0.3.5</version>
             <scope>test</scope>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
     </dependencies>
     <build>
         <plugins>
@@ -113,6 +121,7 @@
         <llaure.testng.version>2.25.0</llaure.testng.version>
         <slf4j.version>2.0.11</slf4j.version>
         <appium.java.client>9.0.0</appium.java.client>
+        <lombok.version>1.18.30</lombok.version>
     </properties>
 
 </project>

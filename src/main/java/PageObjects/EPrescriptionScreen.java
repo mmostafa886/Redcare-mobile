@@ -6,15 +6,15 @@ import org.openqa.selenium.By;
 
 public class EPrescriptionScreen extends PageBase {
 
-    public By skipEPrescribeBtn;
+    private By skipEPrescribeBtn;
 
     public EPrescriptionScreen(AppiumDriver appiumDriver) {
         super(appiumDriver);
         intializeEPrescripeElements();
     }
 
-    public void intializeEPrescripeElements() {
-        String platform = String.valueOf(driver.getCapabilities().getPlatformName());
+    private void intializeEPrescripeElements() {
+        String platform = String.valueOf(getDriver().getCapabilities().getPlatformName());
         if ("Android".equalsIgnoreCase(platform)) {
             skipEPrescribeBtn = new By.ById("btn_skip");
         } else if ("iOS".equalsIgnoreCase(platform)) {

@@ -5,15 +5,15 @@ import org.openqa.selenium.By;
 
 public class CountrySelectScreen extends PageBase {
 
-    public By selectCountryBtn;
+    private By selectCountryBtn;
 
     public CountrySelectScreen(AppiumDriver appiumDriver) {
         super(appiumDriver);
         intializeCoutrySelectElements();
     }
 
-    public void intializeCoutrySelectElements() {
-        String platform = String.valueOf(driver.getCapabilities().getPlatformName());
+    private void intializeCoutrySelectElements() {
+        String platform = String.valueOf(getDriver().getCapabilities().getPlatformName());
         if ("Android".equalsIgnoreCase(platform)) {
             selectCountryBtn = By.xpath("//*[@text='Germany']");
         } else if ("iOS".equalsIgnoreCase(platform)) {

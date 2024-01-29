@@ -1,6 +1,8 @@
 package PageObjects;
 
 import io.appium.java_client.AppiumDriver;
+import lombok.Getter;
+import lombok.extern.java.Log;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
@@ -8,15 +10,19 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.logging.Level;
 
 /**
  * A set of methods that may be used for all the app screens/pages where each of these methods enclose a set of actions
  * to optimize the OOP usage & maximize the code blocks re-usability
  */
+@Log
 public class PageBase {
-    public static AppiumDriver driver;
-    public WebDriverWait wait;
-    public static final long WAIT = 50;
+   @Getter
+    private static AppiumDriver driver;
+    @Getter
+    private WebDriverWait wait;
+    private static final long WAIT = 50;
 
     public PageBase(AppiumDriver appiumDriver) {
         driver = appiumDriver;
@@ -73,7 +79,8 @@ public class PageBase {
             driver.navigate().back();
             System.out.println("Clicked Back, Pop-up removed");
         } catch (NoSuchElementException e) {
-            e.printStackTrace();
+            log.log(Level.ALL, e.getMessage());
+//            e.printStackTrace();
             System.out.println("Element Not found, no action to be taken");
         }
         finally {

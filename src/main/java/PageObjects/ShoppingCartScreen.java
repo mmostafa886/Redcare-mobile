@@ -6,25 +6,23 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import utils.SwipeAndScroll;
 
-
 public class ShoppingCartScreen extends PageBase {
 
-    public By shoppingCartIcon;
-    public By itemTitle;
-    public By subTotalAmount;
-    public String subTotalAmountResource;
-    public By cartScreenToolBar;
-    public By cartScreenTitle;
-    public By itemPriceEur;
-    public By itemPriceCent;
-    public By removeItem;
-
-    public By itemCard;
-    public  String cardItemResource;
-    public By addItem;
-    public By currentAmount;
-    public By emptyCardLabel;
-    public By scrollElement;
+    private By shoppingCartIcon;
+    private By itemTitle;
+    private By subTotalAmount;
+    private String subTotalAmountResource;
+    private By cartScreenToolBar;
+    private By cartScreenTitle;
+    private By itemPriceEur;
+    private By itemPriceCent;
+    private By removeItem;
+    private By itemCard;
+    private  String cardItemResource;
+    private By addItem;
+    private By currentAmount;
+    private By emptyCardLabel;
+    private By scrollElement;
     SwipeAndScroll swipeAndScroll;
 
     public ShoppingCartScreen(AppiumDriver appiumDriver) {
@@ -32,14 +30,13 @@ public class ShoppingCartScreen extends PageBase {
         intializeItemDetailsElements();
     }
 
-    public void intializeItemDetailsElements() {
-        String platform = String.valueOf(driver.getCapabilities().getPlatformName());
+    private void intializeItemDetailsElements() {
+        String platform = String.valueOf(getDriver().getCapabilities().getPlatformName());
         if ("Android".equalsIgnoreCase(platform)) {
             shoppingCartIcon = new By.ById("tab_bar_navigation_cart");
             itemTitle = new By.ById("tv_name");
             subTotalAmount = new By.ById("tv_subtotal_amount");
             subTotalAmountResource = "resourceIdMatches(\"shop.shop_apotheke.com.shopapotheke:id/tv_subtotal_amount\")";
-//            subTotalAmountResource = "shop.shop_apotheke.com.shopapotheke:id/tv_subtotal_amount";
             cartScreenToolBar = new By.ById("tb_toolbar");
             cartScreenTitle = new By.ByXPath("//*[@text='Cart']");
             itemPriceEur = new By.ById("tv_price_euro_ab");
@@ -50,7 +47,6 @@ public class ShoppingCartScreen extends PageBase {
             addItem = new By.ById("btn_add");
             currentAmount = new By.ById("btn_quantity");
             emptyCardLabel = new By.ById("tv_message");
-            //scrollElement = By.id("fl_stack");
             scrollElement = By.id("vg_content_marketplace_cart");
         } else if ("iOS".equalsIgnoreCase(platform)) {
             //In case we want to use iOS, we need to provide the corresponding locators as done for "Android"
@@ -69,7 +65,7 @@ public class ShoppingCartScreen extends PageBase {
     }
 
     public String getSubTotalText() {
-        swipeAndScroll = new SwipeAndScroll(driver);
+        swipeAndScroll = new SwipeAndScroll(getDriver());
 //        swipeAndScroll.scrollToAnElementByAttribute(driver, subTotalAmountResource);
         swipeAndScroll.scrollVerticallyGest(scrollElement, subTotalAmountResource);
         return getElementText(subTotalAmount);
@@ -79,25 +75,25 @@ public class ShoppingCartScreen extends PageBase {
         click(shoppingCartIcon);
         WebElement screenToobarElement = customLocate(cartScreenToolBar);
         WebElement screenTitle = screenToobarElement.findElement(cartScreenTitle);
-        wait.until(ExpectedConditions.visibilityOf(screenTitle));
+        getWait().until(ExpectedConditions.visibilityOf(screenTitle));
     }
 
 
     public void bringAddRemoveToDisplay(){
-        swipeAndScroll = new SwipeAndScroll(driver);
+        swipeAndScroll = new SwipeAndScroll(getDriver());
 //        It is better to use the "UiScrollable" here rather than the "Gestures" as it includes possibility both up & down
 //        While using the Gestures allows only scrolling in one direction (either up or down)
-        swipeAndScroll.scrollToAnElementByAttribute(driver, cardItemResource);
+        swipeAndScroll.scrollToAnElementByAttribute(getDriver(), cardItemResource);
 //        swipeAndScroll.scrollVerticallyGest(scrollElement,cardItemResource);
     }
-
+/*
     public void bringSubTotalToDisplay(){
         swipeAndScroll = new SwipeAndScroll(driver);
         swipeAndScroll.scrollToAnElementByAttribute(driver, cardItemResource);
-    }
+    }*/
     public void removeItemFromCart() {
         click(removeItem);
-        wait.until(ExpectedConditions.presenceOfElementLocated(emptyCardLabel));
+        getWait().until(ExpectedConditions.presenceOfElementLocated(emptyCardLabel));
     }
 
     public boolean validateSubtotal() {
