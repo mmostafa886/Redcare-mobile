@@ -1,13 +1,17 @@
 package utils;
 
+import lombok.extern.java.Log;
+
 import java.io.FileInputStream;
 import java.util.Properties;
+import java.util.logging.Level;
 
 /**
  * This class is used to process the data in the properties file (Ex. config.properties)
  * by dealing with the config file path as a variable
  * so that we can pass it as a variable to the maven run command (mvn clean test -DconfigFilePath=<path_to_properties_file>)
  */
+@Log
 public class ConfigFileReader {
     public static Properties properties = new Properties();
 
@@ -15,7 +19,8 @@ public class ConfigFileReader {
         try (FileInputStream input = new FileInputStream(configFilePath)) {
             properties.load(input);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.log(Level.ALL, e.getMessage());
+//            e.printStackTrace();
         }
     }
 

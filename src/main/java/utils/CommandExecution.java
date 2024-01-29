@@ -1,7 +1,11 @@
 package utils;
 
-import java.io.IOException;
+import lombok.extern.java.Log;
 
+import java.io.IOException;
+import java.util.logging.Level;
+
+@Log
 public class CommandExecution {
     public void executeCommand(String[] command, String message) {
         try {
@@ -14,7 +18,8 @@ public class CommandExecution {
             System.out.println("Process exited with code: " + exitCode);
             System.out.println(message);
         } catch (IOException | InterruptedException e) {
-            e.printStackTrace(); // Handle exceptions as needed
+            log.log(Level.ALL, e.getMessage());
+//            e.printStackTrace(); // Handle exceptions as needed
         }
     }
 }
