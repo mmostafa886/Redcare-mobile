@@ -62,7 +62,7 @@ public class ShoppingCart extends TestBase {
     }
 
     @Test(priority = 20)
-    public void addRandomItemToShoppingCart() {
+    public void addRandomItemToShoppingCart(){
         appOperations = new AppOperations();
         appOperations.restartApp();
 
@@ -82,10 +82,9 @@ public class ShoppingCart extends TestBase {
         String nonEmptyCartContentDesc = shoppingCartScreen.getCartContentDesc();
         System.out.println(nonEmptyCartContentDesc);
         Assert.assertTrue(nonEmptyCartContentDesc.contains("new notification"));//Make sure the Cart is not Empty now
-//        shoppingCartScreen.goToShoppingCart();
         shoppingCartScreen.bringAddRemoveToDisplay();
         shoppingCartScreen.removeItemFromCart();
-        //        sleep(1500);
+//        sleep(1000);
     }
     @Test(priority = 30)
     public void verifyItemInfoBetweenDetailsAndCart(){
@@ -107,9 +106,9 @@ public class ShoppingCart extends TestBase {
         String itemPriceFromDetails = itemDetailsScreen.getDefaultPackagePrice();
         itemDetailsScreen.addItemToCart();//Add item to Cart with the default properties (without for Ex. changing quantity)
 
+        shoppingCartScreen.goToShoppingCart();
         String nonEmptyCartContentDesc = shoppingCartScreen.getCartContentDesc();
         System.out.println(nonEmptyCartContentDesc);
-        shoppingCartScreen.goToShoppingCart();
         String itemNameFromCart = shoppingCartScreen.getFirstCartItemName();
         String itemPriceFromCart = shoppingCartScreen.getSubTotalText();
 
@@ -117,15 +116,12 @@ public class ShoppingCart extends TestBase {
         Assert.assertEquals(itemNameFromDetailsScreen, itemNameFromCart);
         Assert.assertEquals(itemPriceFromDetails, itemPriceFromCart);
 
-//        shoppingCartScreen.backToPreviousScreen();
-        shoppingCartScreen.goToShoppingCart();
         shoppingCartScreen.bringAddRemoveToDisplay();
         shoppingCartScreen.removeItemFromCart();
 //        sleep(1500);
     }
-
     @Test(priority = 40)
-    public void changeQuantityAndCheckPrice() {
+    public void changeQuantityAndCheckPrice() throws InterruptedException {
         appOperations = new AppOperations();
         appOperations.restartApp();
 
@@ -146,7 +142,6 @@ public class ShoppingCart extends TestBase {
         shoppingCartScreen.goToShoppingCart();
         String nonEmptyCartContentDesc = shoppingCartScreen.getCartContentDesc();
         System.out.println(nonEmptyCartContentDesc);
-        shoppingCartScreen.goToShoppingCart();
         String itemNameFromCart = shoppingCartScreen.getFirstCartItemName();
 
         Assert.assertTrue(nonEmptyCartContentDesc.contains("new notification"));//Make sure the Cart is not Empty now

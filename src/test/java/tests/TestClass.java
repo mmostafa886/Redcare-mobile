@@ -3,6 +3,7 @@ package tests;
 import PageObjects.*;
 import io.appium.java_client.android.AndroidDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
@@ -39,11 +40,10 @@ public class TestClass extends TestBase {
 //        caps.setCapability("avd", "RedcareA12"); //Android 12 causes a problem
 //        caps.setCapability("avd", "Pixel7A14");
 //        caps.setCapability("avd", "Pixel7A12L");
-//        caps.setCapability("avd", "Pixel5A12L");
         caps.setCapability("automationName", "UiAutomator2");
         caps.setCapability("platformName", "Android");
         caps.setCapability("deviceName", "Android Emulator");
-        caps.setCapability("platformVersion", "14.0"); //This is commented only for the CI, but it can be used normally when testing locally
+        caps.setCapability("platformVersion", "13.0"); //This is commented only for the CI, but it can be used normally when testing locally
         caps.setCapability("app", System.getProperty("user.dir") + "/apps/ShopApotheke.apk");
 /*        caps.setCapability("appPackage", "shop.shop_apotheke.com.shopapotheke");
         caps.setCapability("appActivity", "com.shopapotheke.activities.main.MainActivity");*/
@@ -57,21 +57,10 @@ public class TestClass extends TestBase {
     //======================================
     @AfterClass
     public void classTearDown() {
-//        String command = "adb emu kill";
         String[] command = {"adb", "emu", "kill"};
         if (null != driver) {
             driver.quit();
         }
-//        try {
-//            // Execute the command
-//            Process process = Runtime.getRuntime().exec(command);
-//            // Wait for the process to complete
-//            process.waitFor();
-//            System.out.println("Test Finished.");
-//        } catch (IOException | InterruptedException e) {
-//            e.printStackTrace();
-//        }
-
         try {
             ProcessBuilder processBuilder = new ProcessBuilder(command);
             Process launchProcess = processBuilder.start();
@@ -132,7 +121,6 @@ public class TestClass extends TestBase {
         String nonEmptyCartContentDesc = shoppingCartScreen.getCartContentDesc();
         System.out.println(nonEmptyCartContentDesc);
         Assert.assertTrue(nonEmptyCartContentDesc.contains("new notification"));//Make sure the Cart is not Empty now
-//        shoppingCartScreen.goToShoppingCart();
         shoppingCartScreen.bringAddRemoveToDisplay();
         shoppingCartScreen.removeItemFromCart();
 //        sleep(1000);
@@ -158,9 +146,9 @@ public class TestClass extends TestBase {
         String itemPriceFromDetails = itemDetailsScreen.getDefaultPackagePrice();
         itemDetailsScreen.addItemToCart();//Add item to Cart with the default properties (without for Ex. changing quantity)
 
+        shoppingCartScreen.goToShoppingCart();
         String nonEmptyCartContentDesc = shoppingCartScreen.getCartContentDesc();
         System.out.println(nonEmptyCartContentDesc);
-        shoppingCartScreen.goToShoppingCart();
         String itemNameFromCart = shoppingCartScreen.getFirstCartItemName();
         String itemPriceFromCart = shoppingCartScreen.getSubTotalText();
 
@@ -168,12 +156,39 @@ public class TestClass extends TestBase {
         Assert.assertEquals(itemNameFromDetailsScreen, itemNameFromCart);
         Assert.assertEquals(itemPriceFromDetails, itemPriceFromCart);
 
-//        shoppingCartScreen.backToPreviousScreen();
-        shoppingCartScreen.goToShoppingCart();
         shoppingCartScreen.bringAddRemoveToDisplay();
         shoppingCartScreen.removeItemFromCart();
 //        sleep(1500);
     }
+    @Test(priority = 40)
+    public void changeQuantityAndCheckPrice() throws InterruptedException {
+        appOperations = new AppOperations();
+        appOperations.restartApp();
 
+        homeScreen = new HomeScreen(driver);
+        homeScreen.bringCCToDisplay();
+        homeScreen.selectRandomCards();
+
+        shoppingCartScreen = new ShoppingCartScreen(driver);
+        String emptyCartContentDesc = shoppingCartScreen.getCartContentDesc();
+        System.out.println(emptyCartContentDesc);
+        Assert.assertEquals(emptyCartContentDesc, "Cart");//Make sure the Cart is Empty
+
+        itemDetailsScreen = new ItemDetailsScreen(driver);
+        String itemNameFromDetailsScreen = itemDetailsScreen.getItemTitle();
+        itemDetailsScreen.addItemToCart();//Add item to Cart with the default properties (without for Ex. changing quantity)
+        itemDetailsScreen.increaseQuantity();
+
+        shoppingCartScreen.goToShoppingCart();
+        String nonEmptyCartContentDesc = shoppingCartScreen.getCartContentDesc();
+        System.out.println(nonEmptyCartContentDesc);
+        String itemNameFromCart = shoppingCartScreen.getFirstCartItemName();
+
+        Assert.assertTrue(nonEmptyCartContentDesc.contains("new notification"));//Make sure the Cart is not Empty now
+        Assert.assertEquals(itemNameFromDetailsScreen, itemNameFromCart);
+        Assert.assertTrue(shoppingCartScreen.validateSubtotal());
+
+//        sleep(3000);
+    }
 
 }

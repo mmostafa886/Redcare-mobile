@@ -7,7 +7,7 @@ appium --use-plugins=gestures & sleep 5 &
 rm -rf allure-results
 
 #3-Execute the test script based on specific configuration file
-mvn clean test -Pgeneric -DconfigFilePath=configFiles/android.properties
+mvn clean test -Pgeneric -DconfigFilePath=src/main/resources/configFiles/android.properties
 
 #4-Copy the old reports history folder (to keep the execution history)
 cp -r allure-report/history allure-results/

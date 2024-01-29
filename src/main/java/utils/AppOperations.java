@@ -8,6 +8,7 @@ import java.io.IOException;
 public class AppOperations {
     CommandExecution commandExecution;
 
+    //This method needs to be checked with Android14
     public void restartApp() {
         commandExecution = new CommandExecution();
         //The command to kill the app

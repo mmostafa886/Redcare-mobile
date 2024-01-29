@@ -1,7 +1,9 @@
 package PageObjects;
 
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.functions.ExpectedCondition;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
@@ -14,7 +16,7 @@ public class ItemDetailsScreen extends PageBase {
 
     public By addToCartBtn;
     public By packageSizeCard;
-
+    public By shoppingCartIcon;
     public String packageSizeResource;
     public String soldByResource;
 
@@ -36,6 +38,7 @@ public class ItemDetailsScreen extends PageBase {
     public void intializeItemDetailsElements() {
         String platform = String.valueOf(driver.getCapabilities().getPlatformName());
         if ("Android".equalsIgnoreCase(platform)) {
+            shoppingCartIcon = new By.ById("tab_bar_navigation_cart");
             addToCartBtn = new By.ById("btn_product_details_footer");
             packageSizeResource = "resourceIdMatches(\"shop.shop_apotheke.com.shopapotheke:id/sv_variants_container\")";
             packageSizeCard = new By.ById("cv_variant");
@@ -126,8 +129,14 @@ public class ItemDetailsScreen extends PageBase {
     //Increase the quantity to be put in the Shopping Cart
     public void increaseQuantity() {
         int oldAmount = Integer.parseInt(getCurrentQuantity());
+        System.out.println("Old Amount: "+oldAmount);
         click(quantityIncrease);
+//        wait.until(ExpectedConditions.textToBePresentInElementLocated(currentQuantity,String.valueOf(oldAmount+1)));
+
+        wait.until(ExpectedConditions.not(ExpectedConditions.textToBe(currentQuantity, String.valueOf(oldAmount))));
         int currentAmount = Integer.parseInt(getCurrentQuantity());
-        Assert.assertEquals(currentAmount, oldAmount + 1);
+        wait.until(ExpectedConditions.textToBePresentInElementLocated(currentQuantity,String.valueOf(currentAmount)));
+        System.out.println("Current Amount: "+currentAmount);
+        wait.until(ExpectedConditions.attributeContains(shoppingCartIcon,"content-desc", String.valueOf(currentAmount)));
     }
 }

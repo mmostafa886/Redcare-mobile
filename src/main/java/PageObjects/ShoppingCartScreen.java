@@ -24,6 +24,7 @@ public class ShoppingCartScreen extends PageBase {
     public By addItem;
     public By currentAmount;
     public By emptyCardLabel;
+    public By scrollElement;
     SwipeAndScroll swipeAndScroll;
 
     public ShoppingCartScreen(AppiumDriver appiumDriver) {
@@ -38,6 +39,7 @@ public class ShoppingCartScreen extends PageBase {
             itemTitle = new By.ById("tv_name");
             subTotalAmount = new By.ById("tv_subtotal_amount");
             subTotalAmountResource = "resourceIdMatches(\"shop.shop_apotheke.com.shopapotheke:id/tv_subtotal_amount\")";
+//            subTotalAmountResource = "shop.shop_apotheke.com.shopapotheke:id/tv_subtotal_amount";
             cartScreenToolBar = new By.ById("tb_toolbar");
             cartScreenTitle = new By.ByXPath("//*[@text='Cart']");
             itemPriceEur = new By.ById("tv_price_euro_ab");
@@ -48,6 +50,8 @@ public class ShoppingCartScreen extends PageBase {
             addItem = new By.ById("btn_add");
             currentAmount = new By.ById("btn_quantity");
             emptyCardLabel = new By.ById("tv_message");
+            //scrollElement = By.id("fl_stack");
+            scrollElement = By.id("vg_content_marketplace_cart");
         } else if ("iOS".equalsIgnoreCase(platform)) {
             //In case we want to use iOS, we need to provide the corresponding locators as done for "Android"
             System.out.println("The Provided Config is for iOS");
@@ -66,7 +70,8 @@ public class ShoppingCartScreen extends PageBase {
 
     public String getSubTotalText() {
         swipeAndScroll = new SwipeAndScroll(driver);
-        swipeAndScroll.scrollToAnElementByAttribute(driver, subTotalAmountResource);
+//        swipeAndScroll.scrollToAnElementByAttribute(driver, subTotalAmountResource);
+        swipeAndScroll.scrollVerticallyGest(scrollElement, subTotalAmountResource);
         return getElementText(subTotalAmount);
     }
 
@@ -80,7 +85,10 @@ public class ShoppingCartScreen extends PageBase {
 
     public void bringAddRemoveToDisplay(){
         swipeAndScroll = new SwipeAndScroll(driver);
+//        It is better to use the "UiScrollable" here rather than the "Gestures" as it includes possibility both up & down
+//        While using the Gestures allows only scrolling in one direction (either up or down)
         swipeAndScroll.scrollToAnElementByAttribute(driver, cardItemResource);
+//        swipeAndScroll.scrollVerticallyGest(scrollElement,cardItemResource);
     }
 
     public void bringSubTotalToDisplay(){
@@ -97,6 +105,7 @@ public class ShoppingCartScreen extends PageBase {
         String itemEur = getElementText(itemPriceEur);
         String itemCent = getElementText(itemPriceCent);
         float itemPrice = Float.parseFloat(itemEur + "." + itemCent);
+        System.out.println("The Item price is: " + itemPrice);
         float totalItemPrice = quantity * itemPrice;
         System.out.println("The total price of the item is: " + totalItemPrice);
 

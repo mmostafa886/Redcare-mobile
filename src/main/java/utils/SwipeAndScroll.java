@@ -5,11 +5,7 @@ import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Pause;
-import org.openqa.selenium.interactions.PointerInput;
-import org.openqa.selenium.interactions.Sequence;
 import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
@@ -18,8 +14,6 @@ import java.util.Map;
  * A set of methods to handle the Swipe/Scroll in all directions instead of re-use the same block of code several times
  * whenever needed
  */
-import static java.time.Duration.ofMillis;
-import static java.util.Collections.singletonList;
 import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
 
 public class SwipeAndScroll extends PageBase {
@@ -44,7 +38,6 @@ public class SwipeAndScroll extends PageBase {
     }
 
 
-
     public void scrollVertically(By sliderElement) {
         RemoteWebElement scrollView = (RemoteWebElement) wait.until(presenceOfElementLocated(sliderElement));
         driver.executeScript("gesture: swipe", Map.of("elementId", scrollView.getId(),
@@ -63,20 +56,48 @@ public class SwipeAndScroll extends PageBase {
         driver.findElement(By.xpath(selectorValue)).click();
     }
 
-public void scrollElementUp(By elementBy, int yPoints) {
-    WebElement slider = driver.findElement(elementBy);
-    Point source = slider.getLocation();
+    public void scrollVerticallyGest(By sliderElement, String selectorValue) {
+        RemoteWebElement scrollView = (RemoteWebElement) wait.until(presenceOfElementLocated(sliderElement));
+        driver.executeScript("gesture: scrollElementIntoView", ImmutableMap.of("scrollableView", scrollView.getId(),
+                "strategy", "id",
+                "selector", selectorValue,
+                "percentage", 30,
+                "direction", "up",
+                "maxCount", 3));
+    }
 
-    PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, "finger");
-    Sequence sequence = new Sequence(finger, 1);
 
-    sequence.addAction(finger.createPointerMove(ofMillis(0), PointerInput.Origin.viewport(), source.x, source.y + yPoints));
-    sequence.addAction(finger.createPointerDown(PointerInput.MouseButton.MIDDLE.asArg()));
-    sequence.addAction(new Pause(finger, ofMillis(600)));
-    sequence.addAction(finger.createPointerMove(ofMillis(600), PointerInput.Origin.viewport(), source.x, source.y));
-    sequence.addAction(finger.createPointerUp(PointerInput.MouseButton.MIDDLE.asArg()));
 
-    driver.perform(singletonList(sequence));
-    System.out.println("Scrolled Vertically");
-}
+
+//The lines below is a trial to convert the Gesture scroll method to a dynamic one
+    //Need optimization in case we need to scroll up(direction: down)
+  /*  public void scrollVerticallyGest(By sliderElement, String selectorValue, int maxCount) {
+        for (int count = 0; count < maxCount; count++) {
+            RemoteWebElement scrollView = (RemoteWebElement) wait.until(presenceOfElementLocated(sliderElement));
+            boolean found = scrollElementIntoView(scrollView, selectorValue, "up", maxCount);
+            // If the element is not found in the 'up' direction, try scrolling 'down'
+            if (!found) {
+                found = scrollElementIntoView(scrollView, selectorValue, "down", maxCount);
+                break;
+            }
+            // Break the loop if the element is found
+            if (found) {
+                break;
+            }
+        }
+    }
+
+    private boolean scrollElementIntoView(RemoteWebElement scrollView, String selectorValue, String direction, int maxCount) {
+        try {
+            driver.executeScript("gesture: scrollElementIntoView", ImmutableMap.of("scrollableView", scrollView.getId(),
+                    "strategy", "id",
+                    "selector", selectorValue,
+                    "percentage", 30,
+                    "direction", direction,
+                    "maxCount", maxCount));
+            return true;  // Element found after scroll
+        } catch (Exception e) {
+            return false; // Element not found after scroll
+        }
+    }*/
 }
