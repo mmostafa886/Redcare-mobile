@@ -74,4 +74,4 @@ Are mainly used to provide the environment specs at which the Text will be execu
 - Optimize the driver creation process >> Done.
 - Use the ThreadLocal >> TBD.
 - Check the parallel execution >> TBD.
-- check a replacement for `[driver = new AndroidDriver(new URL("http://localhost:4723"), caps);]` >> TBD
+- check a replacement for `[driver = new AndroidDriver(new URL("http://localhost:4723"), caps);]` >> Done

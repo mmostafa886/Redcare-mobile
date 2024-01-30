@@ -6,9 +6,6 @@ import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
 import utils.AppOperations;
 
-import java.net.MalformedURLException;
-
-
 public class ShoppingCart extends TestBase {
     SplashScreen splashScreen;
     CountrySelectScreen countrySelectScreen;
@@ -24,7 +21,7 @@ public class ShoppingCart extends TestBase {
     SoftAssert softAssert;
 
     @BeforeClass
-    public void testSetup() throws MalformedURLException {
+    public void testSetup() throws Exception {
         genericSetUp();
     }
 

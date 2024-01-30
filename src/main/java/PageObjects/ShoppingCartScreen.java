@@ -94,6 +94,7 @@ public class ShoppingCartScreen extends PageBase {
     public void removeItemFromCart() {
         click(removeItem);
         getWait().until(ExpectedConditions.presenceOfElementLocated(emptyCardLabel));
+        getWait().until(ExpectedConditions.visibilityOfElementLocated(emptyCardLabel));
     }
 
     public boolean validateSubtotal() {

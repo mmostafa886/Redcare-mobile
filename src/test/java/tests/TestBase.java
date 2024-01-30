@@ -10,7 +10,8 @@ import utils.CommandExecution;
 import utils.ConfigFileReader;
 
 import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.time.Duration;
 
 public abstract class TestBase {
@@ -21,7 +22,7 @@ public abstract class TestBase {
     private static final long WAIT = 15;
     CommandExecution commandExecution;
 
-    public static void genericSetUp() throws MalformedURLException {
+    public static void genericSetUp() throws MalformedURLException, URISyntaxException {
         DesiredCapabilities caps = new DesiredCapabilities();
 
         /* Retrieve the config file path from command line which is also passed to the Surefire plugin configuration*/
@@ -43,9 +44,11 @@ public abstract class TestBase {
          */
         platform = String.valueOf(config.getPlatformName());
         if ("Android".equalsIgnoreCase(platform)) {
-            driver = new AndroidDriver(new URL("http://localhost:4723"), caps);
+//            driver = new AndroidDriver(new URL("http://localhost:4723"), caps);
+            driver = new AndroidDriver(new URI("http://localhost:4723").toURL(), caps);
         } else if ("iOS".equalsIgnoreCase(platform)) {
-            driver = new IOSDriver(new URL("http://localhost:4723"), caps);
+//            driver = new IOSDriver(new URL("http://localhost:4723"), caps);
+            driver = new IOSDriver(new URI("http://localhost:4723").toURL(), caps);
         } else {
             throw new IllegalArgumentException("Platform not Supported!");
         }

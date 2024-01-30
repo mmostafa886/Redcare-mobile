@@ -11,7 +11,8 @@ import org.testng.asserts.SoftAssert;
 import utils.AppOperations;
 
 import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.logging.Level;
 
 import static java.lang.Thread.sleep;
@@ -38,7 +39,7 @@ public class TestClass {
     SoftAssert softAssert;
 
     @BeforeClass
-    public void testSetup() throws MalformedURLException {
+    public void testSetup() throws MalformedURLException, URISyntaxException {
         DesiredCapabilities caps = new DesiredCapabilities();
         //Android 12L, 13 & 14 are working fine
         caps.setCapability("avd", "Pixel7ProA13");
@@ -55,7 +56,8 @@ public class TestClass {
         caps.setCapability("noReset", false);
         caps.setCapability("fullReset", true);
         caps.setCapability("appWaitDuration", 60000); // Set the timeout to 60 seconds (adjust as needed)
-        driver = new AndroidDriver(new URL("http://localhost:4723"), caps);
+//        driver = new AndroidDriver(new URL("http://localhost:4723"), caps);
+        driver = new AndroidDriver(new URI("http://localhost:4723").toURL(), caps);
 
     }
 
